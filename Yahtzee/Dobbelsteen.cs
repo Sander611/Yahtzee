@@ -17,7 +17,7 @@ namespace Yahtzee
 
         public bool magRollen { get; set; }
 
-        private PictureBox dobbelsBox;
+        public PictureBox dobbelsBox { get; set; }
 
         public Dobbelsteen(int id, string startImage, PictureBox deBox)
         {

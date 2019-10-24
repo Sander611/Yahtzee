@@ -17,10 +17,15 @@ namespace Yahtzee
         int dobbelCounter = 0;
         Random rnd = new Random();
         private List<string> alleWorpen = new List<string>() { "Enen", "Tweeën", "Drieën", "Vieren", "Vijfen", "Zessen", "Three of a kind", "Carré", "Full house", "Kleine straat", "Grote straat", "Super score", "Chance" };
+
+        private Dictionary<string, int> scoreKeeper = new Dictionary<string, int>();
+        private int opslagDeel1Punten = 0;
+        private int opslagDeel2Punten = 0;
+
         Dictionary<int, string> DobbelstenenImages = new Dictionary<int, string>();
         private List<PictureBox> dobbelsteenBoxes = new List<PictureBox>() {};
 
-        public List<Dobbelsteen> DobbelstenenLijst = new List<Dobbelsteen>();
+        public List<Dobbelsteen> DobbelstenenLijst;
 
        
         public Yahtzee()
@@ -29,21 +34,63 @@ namespace Yahtzee
             InitializeComponent();
             getListBoxes();
             fillImageDict();
+            fillscoreKeeper();
             setupDobbelstenen();
             setupListWorpen();
         }
 
+        private void updateTotaalFields(int start, int tot, string deel)
+        {
+            int totaalPunten = 0;
+            for (int i = start; i < tot; i++)
+            {
+                totaalPunten += scoreKeeper[alleWorpen[i]];
+            }
+
+            if(deel == "deel1")
+            {
+                if(totaalPunten >= 63)
+                {
+                    bonusTextBox.Text = "35";
+                    totaalPunten += 35;
+                }
+                deel1TextBox.Text = Convert.ToString(totaalPunten);
+                opslagDeel1Punten = totaalPunten;
+
+                deel2TextBox.Text = Convert.ToString(opslagDeel2Punten + opslagDeel1Punten);
+               
+            }
+            else
+            {
+                opslagDeel2Punten = totaalPunten + opslagDeel1Punten;
+                deel2TextBox.Text = Convert.ToString(opslagDeel2Punten);
+            }
+            
+
+        }
+
+        private void fillscoreKeeper()
+        {
+            foreach (String worp in alleWorpen)
+            {
+                scoreKeeper.Add(worp, 0);
+            }
+        }
+
         private void setupListWorpen()
         {
-            //worpenListBox.CheckBoxes = true;
-            worpenListBox.GridLines = true;
-            worpenListBox.FullRowSelect = true;
-            worpenListBox.Scrollable = true;
-            worpenListBox.View = View.Details;
+            List<ListView> worpLijsten = new List<ListView>() { worpenListBox, worpenListBox2 };
 
-            //worpenListBox.OwnerDraw = true;
-            worpenListBox.Columns.Add("Worpen", "Worpen", 200);
-            worpenListBox.Columns.Add("Punten", "Punten", -2);
+            foreach(ListView lv in worpLijsten)
+            {
+                lv.GridLines = true;
+                lv.FullRowSelect = true;
+                lv.Scrollable = true;
+                lv.View = View.Details;
+
+                lv.Columns.Add("Worpen", "Worpen", 200);
+                lv.Columns.Add("Punten", "Punten", -2);
+            }
 
             for (int i = 0; i < 6; i++)
             {
@@ -51,18 +98,6 @@ namespace Yahtzee
                 worpenListBox.Items.Add(items);
             }
 
-            ////////////////////////////////////
-
-            //worpenListBox2.CheckBoxes = true;
-            worpenListBox2.GridLines = true;
-            worpenListBox2.FullRowSelect = true;
-            worpenListBox2.Scrollable = true;
-            worpenListBox2.View = View.Details;
-
-            //worpenListBox.OwnerDraw = true;
-            worpenListBox2.Columns.Add("Worpen", "Worpen", 200);
-            
-            worpenListBox2.Columns.Add("Punten", "Punten", -2);
 
             for (int i = 6; i < alleWorpen.Count; i++)
             {
@@ -94,6 +129,7 @@ namespace Yahtzee
 
         private void setupDobbelstenen()
         {
+            DobbelstenenLijst = new List<Dobbelsteen>();
             for (int i = 0; i < 5; i++)
             {
                 Dobbelsteen dobbelsteen = new Dobbelsteen(i+1, DobbelstenenImages[i+1], dobbelsteenBoxes[i]);
@@ -174,19 +210,23 @@ namespace Yahtzee
 
                     int toegekendePunten = yahtzeeRegels.PuntenBerekenen(geselecteerdeWorp.Text, DobbelstenenLijst);
                     replaceValueListView(toegekendePunten, worpenListBox2, geselecteerdeWorp.Text);
-                    dobbelButton.Enabled = false;
-                    endTurnButton.Enabled = false;
-                    dobbelCounter = 0;
+                    scoreKeeper[geselecteerdeWorp.Text] = toegekendePunten;
+                    updateTotaalFields(6, alleWorpen.Count, "deel2");
                 }
             }
             else
             {
                 int toegekendePunten = yahtzeeRegels.PuntenBerekenen(geselecteerdeWorp.Text, DobbelstenenLijst);
                 replaceValueListView(toegekendePunten, worpenListBox, geselecteerdeWorp.Text);
-                dobbelButton.Enabled = false;
-                endTurnButton.Enabled = false;
-                dobbelCounter = 0;
+                scoreKeeper[geselecteerdeWorp.Text] = toegekendePunten;
+                updateTotaalFields(0, 6, "deel1");
             }
+
+            
+            dobbelButton.Enabled = false;
+            endTurnButton.Enabled = false;
+            dobbelCounter = 0;
+            volgendeBeurt.Enabled = true;
 
         }
 
@@ -211,20 +251,42 @@ namespace Yahtzee
 
         private void volgendeBeurt_Click(object sender, EventArgs e)
         {
-            // RESET dobbelstenen (image, currWaarde en magRollen) (omlijning verwijderen)
-            // Enable dobble button
-            
+            setupDobbelstenen();
+            foreach(PictureBox pb in dobbelsteenBoxes)
+            {
+                pb.BorderStyle = BorderStyle.None;
+            }
+
+            dobbelButton.Enabled = true;
+            volgendeBeurt.Enabled = false;
             
         }
 
         private void dobbel_Click(object sender, EventArgs e)
         {
-            foreach (Dobbelsteen dobbelsteen in DobbelstenenLijst)
+            if (dobbelCounter >= 1)
             {
-                // check of dobblesteen property overeenkomt met eventsender object property oid
-                // als dat zo is dan dobbelsteen.magRollen op false zetten.
-                // dobbelsteen andere kleur geven? omlijning etc?
+                var pb = sender as PictureBox;
+                foreach (Dobbelsteen dobbelsteen in DobbelstenenLijst)
+                {
+                    if (pb == dobbelsteen.dobbelsBox)
+                    {
+                        if (pb.BorderStyle == BorderStyle.None)
+                        {
+                            dobbelsteen.magRollen = false;
+                            pb.BorderStyle = BorderStyle.Fixed3D;
+                        }
+                        else
+                        {
+                            dobbelsteen.magRollen = true;
+                            pb.BorderStyle = BorderStyle.None;
+
+                        }
+
+                    }
+                }
             }
+
         }
     }
 }

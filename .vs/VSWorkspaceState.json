@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Yahtzee"
   ],
-  "SelectedNode": "\\Yahtzee.sln",
+  "SelectedNode": "\\Yahtzee\\Yahtzee.cs",
   "PreviewInSolutionExplorer": false
 }

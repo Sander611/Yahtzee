@@ -33,13 +33,13 @@ namespace Yahtzee
                     return berekenAantalZelfdeVoorNummer(dobbelstenenlijst, 6);
 
                 case "Three of a kind":
-                    return 0;
+                    return berekenCarreOfThree(dobbelstenenlijst, "toak");
 
                 case "Carré":
-                    return 0;
+                    return berekenCarreOfThree(dobbelstenenlijst, "carre");
 
                 case "Full house":
-                    return 0;
+                    return berekenFullHouse(dobbelstenenlijst);
 
                 case "Kleine straat":
                     return straatBerekenen(dobbelstenenlijst, "kleine");
@@ -55,6 +55,67 @@ namespace Yahtzee
             }
 
             return aantalPunten;
+        }
+
+        private int berekenFullHouse(List<Dobbelsteen> dobbelLijst)
+        {
+            List<int> alleWaardes = new List<int>();
+            int puntenTeller = 0;
+            bool drieDezelfde = false;
+            bool tweeDezelfde = false;
+
+            foreach (Dobbelsteen dobbelsteen in dobbelLijst)
+            {
+                alleWaardes.Add(dobbelsteen.currWaarde);
+            }
+
+            var counts = alleWaardes.GroupBy(x => x).ToDictionary(g => g.Key, g => g.Count());
+
+            foreach (KeyValuePair<int, int> entry in counts)
+            {
+                if(entry.Value == 2)
+                {
+                    tweeDezelfde = true;
+                }
+                else if (entry.Value == 3)
+                {
+                    drieDezelfde = true;
+                }
+            }
+
+            if (tweeDezelfde && drieDezelfde)
+            {
+                puntenTeller = 25;
+            }
+
+            return puntenTeller;
+        }
+        private int berekenCarreOfThree(List<Dobbelsteen> dobbelLijst, string checkWorp){
+
+            List<int> alleWaardes = new List<int>();
+            int puntenHouder = 0;
+            int aantalPunten = 0;
+
+            foreach (Dobbelsteen dobbelsteen in dobbelLijst)
+            {
+                puntenHouder += dobbelsteen.currWaarde;
+                alleWaardes.Add(dobbelsteen.currWaarde);
+            }
+
+            var counts = alleWaardes.GroupBy(x => x).ToDictionary(g => g.Key, g => g.Count());
+
+            foreach(KeyValuePair<int, int> entry in counts){
+                if (entry.Value == 3 && checkWorp == "toak"){ // three of a kind
+                    aantalPunten = puntenHouder;
+                }
+                else if (entry.Value == 4 && checkWorp == "carre"){ // carré
+                    aantalPunten = puntenHouder;
+                }
+            }
+
+            return aantalPunten;
+
+
         }
 
         private int berekenAantalZelfdeVoorNummer(List<Dobbelsteen> dobbelLijst, int checkGetal)
@@ -75,15 +136,21 @@ namespace Yahtzee
         private bool volgordeCheck(int lengte, List<int> lijst, int aantalGoed)
         {
             lijst.Sort();
+            lijst = lijst.Distinct().ToList();
+
             int teller = 0;
             bool klopt = false;
             for (int i = 1; i < lengte+1; i++)
             {
-                for(int x = i; x < i+4; x++)
+
+                for (int x = i; x < i+aantalGoed; x++)
                 {
+
                     if (lijst.Contains(x))
                     {
-                        teller++;
+
+                        teller = teller + 1;
+
                     }
                 }
                 if (teller == aantalGoed)
@@ -107,6 +174,7 @@ namespace Yahtzee
 
             if (typeStraat == "kleine")
             {
+
                 bool straat = volgordeCheck(3, alleWaardes, 4);
                 aantalPunten = (straat) ? 30 : 0;
 
@@ -130,7 +198,7 @@ namespace Yahtzee
 
                     if (dobbelsteen.currWaarde == i)
                     {
-                        aantal++;
+                        aantal += 1;
                     }
                     
                 }

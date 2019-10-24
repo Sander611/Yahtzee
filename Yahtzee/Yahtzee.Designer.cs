@@ -40,6 +40,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.worpenListBox2 = new System.Windows.Forms.ListView();
             this.volgendeBeurt = new System.Windows.Forms.Button();
+            this.bonusTextBox = new System.Windows.Forms.TextBox();
+            this.deel1TextBox = new System.Windows.Forms.TextBox();
+            this.deel2TextBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.linksBovenBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.linksMiddenBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rechtsBovenBox)).BeginInit();
@@ -73,6 +79,7 @@
             this.linksMiddenBox.Size = new System.Drawing.Size(105, 97);
             this.linksMiddenBox.TabIndex = 2;
             this.linksMiddenBox.TabStop = false;
+            this.linksMiddenBox.Click += new System.EventHandler(this.dobbel_Click);
             // 
             // rechtsBovenBox
             // 
@@ -81,6 +88,7 @@
             this.rechtsBovenBox.Size = new System.Drawing.Size(105, 97);
             this.rechtsBovenBox.TabIndex = 3;
             this.rechtsBovenBox.TabStop = false;
+            this.rechtsBovenBox.Click += new System.EventHandler(this.dobbel_Click);
             // 
             // rechtsMiddenBox
             // 
@@ -89,6 +97,7 @@
             this.rechtsMiddenBox.Size = new System.Drawing.Size(105, 97);
             this.rechtsMiddenBox.TabIndex = 4;
             this.rechtsMiddenBox.TabStop = false;
+            this.rechtsMiddenBox.Click += new System.EventHandler(this.dobbel_Click);
             // 
             // linksOnderBox
             // 
@@ -97,6 +106,7 @@
             this.linksOnderBox.Size = new System.Drawing.Size(105, 97);
             this.linksOnderBox.TabIndex = 5;
             this.linksOnderBox.TabStop = false;
+            this.linksOnderBox.Click += new System.EventHandler(this.dobbel_Click);
             // 
             // dobbelButton
             // 
@@ -149,6 +159,7 @@
             // 
             // volgendeBeurt
             // 
+            this.volgendeBeurt.Enabled = false;
             this.volgendeBeurt.Location = new System.Drawing.Point(771, 430);
             this.volgendeBeurt.Name = "volgendeBeurt";
             this.volgendeBeurt.Size = new System.Drawing.Size(85, 23);
@@ -157,11 +168,71 @@
             this.volgendeBeurt.UseVisualStyleBackColor = true;
             this.volgendeBeurt.Click += new System.EventHandler(this.volgendeBeurt_Click);
             // 
+            // bonusTextBox
+            // 
+            this.bonusTextBox.Location = new System.Drawing.Point(363, 215);
+            this.bonusTextBox.Name = "bonusTextBox";
+            this.bonusTextBox.ReadOnly = true;
+            this.bonusTextBox.Size = new System.Drawing.Size(100, 22);
+            this.bonusTextBox.TabIndex = 14;
+            this.bonusTextBox.Text = "0";
+            // 
+            // deel1TextBox
+            // 
+            this.deel1TextBox.Location = new System.Drawing.Point(363, 243);
+            this.deel1TextBox.Name = "deel1TextBox";
+            this.deel1TextBox.ReadOnly = true;
+            this.deel1TextBox.Size = new System.Drawing.Size(100, 22);
+            this.deel1TextBox.TabIndex = 15;
+            this.deel1TextBox.Text = "0";
+            // 
+            // deel2TextBox
+            // 
+            this.deel2TextBox.Location = new System.Drawing.Point(363, 476);
+            this.deel2TextBox.Name = "deel2TextBox";
+            this.deel2TextBox.ReadOnly = true;
+            this.deel2TextBox.Size = new System.Drawing.Size(100, 22);
+            this.deel2TextBox.TabIndex = 16;
+            this.deel2TextBox.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(258, 215);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(91, 17);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Extra bonus: ";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(258, 243);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(95, 17);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Totaal deel 1:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(226, 476);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(131, 17);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "Totaal deel 1 en 2: ";
+            // 
             // Yahtzee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(863, 510);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.deel2TextBox);
+            this.Controls.Add(this.deel1TextBox);
+            this.Controls.Add(this.bonusTextBox);
             this.Controls.Add(this.volgendeBeurt);
             this.Controls.Add(this.worpenListBox2);
             this.Controls.Add(this.label2);
@@ -200,6 +271,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListView worpenListBox2;
         private System.Windows.Forms.Button volgendeBeurt;
+        private System.Windows.Forms.TextBox bonusTextBox;
+        private System.Windows.Forms.TextBox deel1TextBox;
+        private System.Windows.Forms.TextBox deel2TextBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
 
