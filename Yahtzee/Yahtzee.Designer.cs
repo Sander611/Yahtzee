@@ -246,7 +246,7 @@
             this.Controls.Add(this.linksBovenBox);
             this.Controls.Add(this.worpenListBox);
             this.Name = "Yahtzee";
-            this.Text = "Form1";
+            this.Text = "Yahtzee";
             ((System.ComponentModel.ISupportInitialize)(this.linksBovenBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.linksMiddenBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rechtsBovenBox)).EndInit();

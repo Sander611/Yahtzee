@@ -136,21 +136,18 @@ namespace Yahtzee
         private bool volgordeCheck(int lengte, List<int> lijst, int aantalGoed)
         {
             lijst.Sort();
-            lijst = lijst.Distinct().ToList();
-
+            lijst = lijst.Distinct().ToList(); // gesorteerde unieke lijst
+ 
             int teller = 0;
             bool klopt = false;
             for (int i = 1; i < lengte+1; i++)
             {
-
+                teller = 0;
                 for (int x = i; x < i+aantalGoed; x++)
                 {
-
                     if (lijst.Contains(x))
                     {
-
                         teller = teller + 1;
-
                     }
                 }
                 if (teller == aantalGoed)
