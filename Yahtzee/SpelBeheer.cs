@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Yahtzee.Models;
+using Yahtzee.Repositories;
 
 namespace Yahtzee
 {
@@ -89,7 +91,7 @@ namespace Yahtzee
         {
             for (int i = 1; i < 7; i++)
             {
-                string imagePath = "../../images/dice" + i + ".png";
+                string imagePath = "../../Images/dice" + i + ".png";
                 DobbelstenenImages.Add(i, imagePath);
             }
         }
@@ -156,12 +158,29 @@ namespace Yahtzee
         }
 
         private void eindigSpel()
-        // sluit spel af.
+        // Exits the game en updated database.
         {
             
-            Console.WriteLine("Spel is klaar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             var gewonnenSpeler = alleSpelers.OrderByDescending(i => i.totaleScore).Take(1);
             Console.WriteLine(gewonnenSpeler);
+
+
+
+            //ADDING SCORE TO DATABASe:
+            var scoreRepo = new ScoreRepository();
+
+            foreach(Speler speler in alleSpelers)
+            {
+                var nieuwScoreObj = new Score
+                {
+                    NAAM = speler.Naam,
+                    SCORE1 = speler.totaleScore
+
+                };
+                scoreRepo.AddNewScore(nieuwScoreObj);
+            }
+
+
             yahtzeeForm.Close();
 
         }
