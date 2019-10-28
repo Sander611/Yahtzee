@@ -12,11 +12,15 @@ namespace Yahtzee
     public class SpelBeheer
 
     {
+        ScoreRepository scoreRepo = new ScoreRepository();
+        ScoresTonen scoresForm = new ScoresTonen();
         private YahtzeeRegels yahtzeeRegels = new YahtzeeRegels();
         public Yahtzee yahtzeeForm;
 
+
         private List<string> alleWorpen = new List<string>() { "Enen", "Tweeën", "Drieën", "Vieren", "Vijfen", "Zessen", "Three of a kind", "Carré", "Full house", "Kleine straat", "Grote straat", "Super score", "Chance" };
         private List<Speler> alleSpelers = new List<Speler>();
+
 
         public Dictionary<int, string> DobbelstenenImages = new Dictionary<int, string>();
         public List<PictureBox> dobbelsteenBoxes = new List<PictureBox>() { };
@@ -161,15 +165,49 @@ namespace Yahtzee
         // Exits the game en updated database.
         {
             
-            var gewonnenSpeler = alleSpelers.OrderByDescending(i => i.totaleScore).Take(1);
-            Console.WriteLine(gewonnenSpeler);
 
+            addScoresToDb();
 
+            string besteSpeler = getHighestScoreOfMatch();
 
-            //ADDING SCORE TO DATABASe:
-            var scoreRepo = new ScoreRepository();
+            scoresForm.updateTitle(besteSpeler);
 
-            foreach(Speler speler in alleSpelers)
+            spelerScoresIterator();
+
+            getTopScores();
+
+            scoresForm.Show();
+            yahtzeeForm.Close();
+
+        }
+
+        private void getTopScores()
+        // Krijgt een lijst met top 10 all time scores en laad die in listview via scoretonen form.
+        {
+
+            var scoreLijst = scoreRepo.GetTopList();
+            foreach(Score score in scoreLijst)
+            {
+                scoresForm.UpdateAllTimeScores(score.NAAM, score.SCORE1);
+            }
+
+        }
+
+        private void spelerScoresIterator()
+        // Verstuurd alle spelernamen met hun scores van deze match naar de scorestonen form.
+        {
+            for (int i = 0; i < alleSpelers.Count; i++)
+            {
+                scoresForm.updateScoreFields(alleSpelers[i].Naam, alleSpelers[i].totaleScore, i);
+                    
+            }
+        }
+
+        private void addScoresToDb()
+        //ADDING SCORE TO DATABASe:
+        {
+
+            foreach (Speler speler in alleSpelers)
             {
                 var nieuwScoreObj = new Score
                 {
@@ -179,10 +217,20 @@ namespace Yahtzee
                 };
                 scoreRepo.AddNewScore(nieuwScoreObj);
             }
+        }
 
+        private string getHighestScoreOfMatch()
+        // Krijgt highest score van deze match
+        {
+            string spelerNaam = "";
 
-            yahtzeeForm.Close();
+            var gewonnenSpeler = alleSpelers.OrderByDescending(i => i.totaleScore).Take(1);
+            foreach(Speler speler in gewonnenSpeler)
+            {
+                spelerNaam = speler.Naam;
+            }
 
+            return spelerNaam;
         }
 
 

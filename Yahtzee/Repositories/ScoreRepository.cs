@@ -14,7 +14,8 @@ namespace Yahtzee.Repositories
 
         public IEnumerable<Score> GetTopList()
         {
-            return context.Scores.AsEnumerable();
+            var top10scores = context.Scores.AsEnumerable().OrderByDescending(x => x.SCORE1).Take(10);
+            return top10scores;
         }
 
         public void AddNewScore(Score score)
@@ -22,5 +23,6 @@ namespace Yahtzee.Repositories
             context.Scores.Add(score);
             context.SaveChanges();
         }
+
     }
 }
