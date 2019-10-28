@@ -40,12 +40,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.worpenListBox2 = new System.Windows.Forms.ListView();
             this.volgendeBeurt = new System.Windows.Forms.Button();
-            this.bonusTextBox = new System.Windows.Forms.TextBox();
-            this.deel1TextBox = new System.Windows.Forms.TextBox();
-            this.deel2TextBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.spelerNaamVeld = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.linksBovenBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.linksMiddenBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rechtsBovenBox)).BeginInit();
@@ -132,27 +128,29 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 253);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 212);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 17);
+            this.label1.Size = new System.Drawing.Size(55, 17);
             this.label1.TabIndex = 10;
             this.label1.Text = "Deel 2";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 17);
+            this.label2.Size = new System.Drawing.Size(55, 17);
             this.label2.TabIndex = 11;
             this.label2.Text = "Deel 1";
             // 
             // worpenListBox2
             // 
             this.worpenListBox2.HideSelection = false;
-            this.worpenListBox2.Location = new System.Drawing.Point(13, 274);
+            this.worpenListBox2.Location = new System.Drawing.Point(13, 229);
             this.worpenListBox2.Name = "worpenListBox2";
-            this.worpenListBox2.Size = new System.Drawing.Size(450, 180);
+            this.worpenListBox2.Size = new System.Drawing.Size(450, 190);
             this.worpenListBox2.TabIndex = 12;
             this.worpenListBox2.UseCompatibleStateImageBehavior = false;
             this.worpenListBox2.Click += new System.EventHandler(this.ListBox_Click);
@@ -168,71 +166,32 @@
             this.volgendeBeurt.UseVisualStyleBackColor = true;
             this.volgendeBeurt.Click += new System.EventHandler(this.volgendeBeurt_Click);
             // 
-            // bonusTextBox
+            // label6
             // 
-            this.bonusTextBox.Location = new System.Drawing.Point(363, 215);
-            this.bonusTextBox.Name = "bonusTextBox";
-            this.bonusTextBox.ReadOnly = true;
-            this.bonusTextBox.Size = new System.Drawing.Size(100, 22);
-            this.bonusTextBox.TabIndex = 14;
-            this.bonusTextBox.Text = "0";
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(717, 312);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(84, 17);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Beurt aan:";
             // 
-            // deel1TextBox
+            // spelerNaamVeld
             // 
-            this.deel1TextBox.Location = new System.Drawing.Point(363, 243);
-            this.deel1TextBox.Name = "deel1TextBox";
-            this.deel1TextBox.ReadOnly = true;
-            this.deel1TextBox.Size = new System.Drawing.Size(100, 22);
-            this.deel1TextBox.TabIndex = 15;
-            this.deel1TextBox.Text = "0";
-            // 
-            // deel2TextBox
-            // 
-            this.deel2TextBox.Location = new System.Drawing.Point(363, 476);
-            this.deel2TextBox.Name = "deel2TextBox";
-            this.deel2TextBox.ReadOnly = true;
-            this.deel2TextBox.Size = new System.Drawing.Size(100, 22);
-            this.deel2TextBox.TabIndex = 16;
-            this.deel2TextBox.Text = "0";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(258, 215);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(91, 17);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Extra bonus: ";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(258, 243);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 17);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "Totaal deel 1:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(226, 476);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(131, 17);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "Totaal deel 1 en 2: ";
+            this.spelerNaamVeld.AutoSize = true;
+            this.spelerNaamVeld.Location = new System.Drawing.Point(720, 333);
+            this.spelerNaamVeld.Name = "spelerNaamVeld";
+            this.spelerNaamVeld.Size = new System.Drawing.Size(77, 17);
+            this.spelerNaamVeld.TabIndex = 21;
+            this.spelerNaamVeld.Text = "[naamHier]";
             // 
             // Yahtzee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(863, 510);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.deel2TextBox);
-            this.Controls.Add(this.deel1TextBox);
-            this.Controls.Add(this.bonusTextBox);
+            this.Controls.Add(this.spelerNaamVeld);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.volgendeBeurt);
             this.Controls.Add(this.worpenListBox2);
             this.Controls.Add(this.label2);
@@ -271,12 +230,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListView worpenListBox2;
         private System.Windows.Forms.Button volgendeBeurt;
-        private System.Windows.Forms.TextBox bonusTextBox;
-        private System.Windows.Forms.TextBox deel1TextBox;
-        private System.Windows.Forms.TextBox deel2TextBox;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label spelerNaamVeld;
     }
 }
 

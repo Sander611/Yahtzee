@@ -14,45 +14,27 @@ namespace Yahtzee
     public partial class Yahtzee : Form
     {
 
-        YahtzeeRegels yahtzeeRegels = new YahtzeeRegels();
-        int dobbelCounter = 0;
-        Random rnd = new Random();
+        
 
-        private List<string> alleWorpen = new List<string>() { "Enen", "Tweeën", "Drieën", "Vieren", "Vijfen", "Zessen", "Three of a kind", "Carré", "Full house", "Kleine straat", "Grote straat", "Super score", "Chance" };
 
-        private Dictionary<string, int> scoreKeeper = new Dictionary<string, int>();
+        public SpelBeheer SpelBeheer { get; set; }
 
-        private int opslagDeel1Punten = 0;
-        private int opslagDeel2Punten = 0;
 
-        Dictionary<int, string> DobbelstenenImages = new Dictionary<int, string>();
-        private List<PictureBox> dobbelsteenBoxes = new List<PictureBox>() {};
-
-        public List<Dobbelsteen> DobbelstenenLijst;
-
-       
         public Yahtzee()
         {
            
             InitializeComponent();
 
-            // Vraag aantal spelers op
-            // Vraag namen op voor het aantal spelers
-            // Creeer speler objecten
-            // maak voor elke speler een eigen scoreKeeper aan
-
-            getListBoxes();
-            fillImageDict();
-            fillscoreKeeper();
-            setupDobbelstenen();
-            setupListWorpen();
-
-
-
         }
 
-        private void getListBoxes()
-        // Haalt alle dobbelsteen pictureboxes(controls) op en stopt ze in lijst dobbelsteenBoxes.
+        public void changePlayerLabel(string playerName)
+        // Verandert label in form naar speler die aan de beurt is.
+        {
+            spelerNaamVeld.Text = playerName;
+        }
+
+        public void getListBoxes()
+        // Haalt alle dobbelsteen pictureboxes(controls) op en stopt ze in lijst dobbelsteenBoxes in spelbeheer.
         {
             foreach (Control c in this.Controls)
             {
@@ -60,49 +42,14 @@ namespace Yahtzee
 
                 if (current != null)
                 {
-                    dobbelsteenBoxes.Add(current);
+                    SpelBeheer.dobbelsteenBoxes.Add(current);
                 }
             }
         }
 
-        private void fillImageDict()
-        // Maakt een dictionary met als key de waarde van de dobbelsteen en als value de path naar de image file.
-        {
-            for (int i = 1; i < 7; i++)
-            {
-                string imagePath = "../../images/dice" + i + ".png";
-                DobbelstenenImages.Add(i, imagePath);
-            }
-        }
 
-        private void fillscoreKeeper()
-        // Maakt een dictionary voor de speler die bijhoudt welke worpen de gebruiker gebruikt heeft en de score bij elke worp (default value 0).
-        // !!!
-        // DEZE FUNCTIE MOET ELKE SPELER HEBBEN.
-        // !!!
-        {
-            foreach (String worp in alleWorpen)
-            {
-                scoreKeeper.Add(worp, 0);
-            }
-        }
-
-        private void setupDobbelstenen()
-        // Vult een lijst met dobbelsteen objecten.
-        {
-            DobbelstenenLijst = new List<Dobbelsteen>();
-            for (int i = 0; i < 5; i++)
-            {
-                Dobbelsteen dobbelsteen = new Dobbelsteen(i + 1, DobbelstenenImages[i + 1], dobbelsteenBoxes[i]);
-                DobbelstenenLijst.Add(dobbelsteen);
-            }
-        }
-
-        private void setupListWorpen()
+        public void setupListWorpen(List<Speler> alleSpelers, List<string> alleWorpen)
         // Genereert listviews waarin alle worpsoorten staan.
-        // !!!
-        // DEZE FUNCTIE MOET TWEE KOLOMMEN KRIJGEN VOOR BEIDE SPELERS 1.
-        // !!!
         {
             List<ListView> worpLijsten = new List<ListView>() { worpenListBox, worpenListBox2 };
 
@@ -113,81 +60,61 @@ namespace Yahtzee
                 lv.Scrollable = true;
                 lv.View = View.Details;
 
-                lv.Columns.Add("Worpen", "Worpen", 200);
-                lv.Columns.Add("Punten", "Punten", -2);
+                lv.Columns.Add("Worpen", "Worpen", 120);
+
+                for (int i = 0; i < alleSpelers.Count; i++)
+			    {
+                    lv.Columns.Add(alleSpelers[i].Naam, alleSpelers[i].Naam, -2);
+			    }
+                
             }
 
             for (int i = 0; i < 6; i++)
             {
-                var items = new ListViewItem(new[] { alleWorpen[i], "" });
+                var items = new ListViewItem();
+                items.Text = alleWorpen[i];
+                for (int x = 0; x < alleSpelers.Count; x++)
+                {
+                    items.SubItems.Add("");
+                }
                 worpenListBox.Items.Add(items);
             }
 
 
             for (int i = 6; i < alleWorpen.Count; i++)
             {
-                var items = new ListViewItem(new[] { alleWorpen[i], "" });
+                var items = new ListViewItem();
+                items.Text = alleWorpen[i];
+                for (int x = 0; x < alleSpelers.Count; x++)
+                {
+                    items.SubItems.Add("");
+                }
                 worpenListBox2.Items.Add(items);
             }
         }
 
-///////////////////////////////////////////////////////////
-
-
-        private void updateTotaalFields(int start, int tot, string deel)
-        // Deze functie updated de totaalscorefields wanneer er een score wordt toegevoegd aan de listview.
-        // !!!
-        // DEZE FUNCTIE MOET ELKE SPELER HEBBEN.
-        // !!!
-        {
-            int totaalPunten = 0;
-            for (int i = start; i < tot; i++)
-            {
-                totaalPunten += scoreKeeper[alleWorpen[i]];
-            }
-
-            if(deel == "deel1")
-            {
-                if(totaalPunten >= 63)
-                {
-                    bonusTextBox.Text = "35";
-                    totaalPunten += 35;
-                }
-                deel1TextBox.Text = Convert.ToString(totaalPunten);
-                opslagDeel1Punten = totaalPunten;
-
-                deel2TextBox.Text = Convert.ToString(opslagDeel2Punten + opslagDeel1Punten);
-               
-            }
-            else
-            {
-                opslagDeel2Punten = totaalPunten + opslagDeel1Punten;
-                deel2TextBox.Text = Convert.ToString(opslagDeel2Punten);
-            }
             
-
-        }
 
         private void dobbelButton_Click(object sender, EventArgs e)
         // Deze functie pakt voor elke dobbelsteen box een random image (alleen voor de dobbelstenen die field (magRollen) true heeft.
         {
-            dobbelCounter++;
-            foreach (Dobbelsteen dobbelsteen in DobbelstenenLijst)
+            SpelBeheer.currentSpeler.dobbelCounter += 1;
+            foreach (Dobbelsteen dobbelsteen in SpelBeheer.DobbelstenenLijst)
             {
                 if (dobbelsteen.magRollen)
                 {
-                    
-                    int index = rnd.Next(1, 7);
+
+                    int index = SpelBeheer.randomGetal();
                     dobbelsteen.currWaarde = index;
-                    dobbelsteen.setImage(DobbelstenenImages[index]);
-                    
+                    dobbelsteen.setImage(SpelBeheer.DobbelstenenImages[index]);
+
                 }
                 else
                 {
                     continue;
                 }
             }
-            if (dobbelCounter == 3)
+            if (SpelBeheer.currentSpeler.dobbelCounter == 3)
             {
                 dobbelButton.Enabled = false;
             }
@@ -219,13 +146,13 @@ namespace Yahtzee
             }
 
 
-            if(dobbelCounter >= 1)
+            if (SpelBeheer.currentSpeler.dobbelCounter >= 1)
             {
                 endTurnButton.Enabled = true;
             }
-            
 
-            
+
+
         }
 
         private void endTurnButton_Click(object sender, EventArgs e)
@@ -233,6 +160,7 @@ namespace Yahtzee
         {
             var geselecteerdeWorp = worpenListBox.SelectedItems.Count > 0 ? worpenListBox.SelectedItems[0] : null;
 
+            // TODO: if veld al ingevuld doe dit.
             if (geselecteerdeWorp == null)
             {
                 geselecteerdeWorp = worpenListBox2.SelectedItems.Count > 0 ? worpenListBox2.SelectedItems[0] : null;
@@ -243,34 +171,29 @@ namespace Yahtzee
                 else
                 {
 
-                    int toegekendePunten = yahtzeeRegels.PuntenBerekenen(geselecteerdeWorp.Text, DobbelstenenLijst);
-                    replaceValueListView(toegekendePunten, worpenListBox2, geselecteerdeWorp.Text);
-                    scoreKeeper[geselecteerdeWorp.Text] = toegekendePunten;
-                    updateTotaalFields(6, alleWorpen.Count, "deel2");
+                    SpelBeheer.calculateScoreAndUpdate(geselecteerdeWorp.Text, worpenListBox2);
+
                 }
             }
             else
             {
-                int toegekendePunten = yahtzeeRegels.PuntenBerekenen(geselecteerdeWorp.Text, DobbelstenenLijst);
-                replaceValueListView(toegekendePunten, worpenListBox, geselecteerdeWorp.Text);
-                scoreKeeper[geselecteerdeWorp.Text] = toegekendePunten;
-                updateTotaalFields(0, 6, "deel1");
-            }
 
-            
+                SpelBeheer.calculateScoreAndUpdate(geselecteerdeWorp.Text, worpenListBox);
+
+            }
             dobbelButton.Enabled = false;
             endTurnButton.Enabled = false;
-            dobbelCounter = 0;
             volgendeBeurt.Enabled = true;
+            
 
         }
 
-        private void replaceValueListView(int punten, ListView box, string rowName)
+        public void replaceValueListView(int punten, ListView box, string rowName)
         // Deze functie update de score in de listviews. Wanneer de score in een row al ingevoerd is kan er niet worden overschreven.
         {
             var c_worpen = box.Columns["Worpen"].Index;
-            var c_punten = box.Columns["Punten"].Index;
-            
+            var c_punten = box.Columns[SpelBeheer.currentSpeler.Naam].Index;
+
             foreach (ListViewItem item in box.Items)
             {
                 if (item.SubItems[c_worpen].Text == rowName)
@@ -278,8 +201,9 @@ namespace Yahtzee
                     if (item.SubItems[c_punten].Text == "")
                     {
                         item.SubItems[c_punten].Text = Convert.ToString(punten);
+                        SpelBeheer.currentSpeler.scoreKeeper[rowName] = punten;
                     }
-                    
+
                     break;
                 }
             }
@@ -287,28 +211,34 @@ namespace Yahtzee
 
         private void volgendeBeurt_Click(object sender, EventArgs e)
         // Deze functie gaat door naar de volgende beurt
-        // !!!
-        // DEZE FUNCTIE MOET SPELERS SWITCHEN.
-        // !!!
         {
-            setupDobbelstenen();
-            foreach(PictureBox pb in dobbelsteenBoxes)
+            SpelBeheer.setupDobbelstenen();
+
+            foreach (PictureBox pb in SpelBeheer.dobbelsteenBoxes)
             {
                 pb.BorderStyle = BorderStyle.None;
             }
 
+            SpelBeheer.checkVoorEindeSpel();
+
+            SpelBeheer.currentSpeler.dobbelCounter = 0;
+
+            SpelBeheer.getVolgendeSpeler();
+
+            changePlayerLabel(SpelBeheer.currentSpeler.Naam);
+
             dobbelButton.Enabled = true;
             volgendeBeurt.Enabled = false;
-            
+
         }
 
         private void dobbel_Click(object sender, EventArgs e)
         // Deze functie disabled dobbelstenen zodat ze niet meer gerolld kunnen worden.
         {
-            if (dobbelCounter >= 1)
+            if (SpelBeheer.currentSpeler.dobbelCounter >= 1)
             {
                 var pb = sender as PictureBox;
-                foreach (Dobbelsteen dobbelsteen in DobbelstenenLijst)
+                foreach (Dobbelsteen dobbelsteen in SpelBeheer.DobbelstenenLijst)
                 {
                     if (pb == dobbelsteen.dobbelsBox)
                     {
