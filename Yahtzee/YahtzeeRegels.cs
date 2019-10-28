@@ -105,10 +105,10 @@ namespace Yahtzee
             var counts = alleWaardes.GroupBy(x => x).ToDictionary(g => g.Key, g => g.Count());
 
             foreach(KeyValuePair<int, int> entry in counts){
-                if (entry.Value == 3 && checkWorp == "toak"){ // three of a kind
+                if (entry.Value >= 3 && checkWorp == "toak"){ // three of a kind
                     aantalPunten = puntenHouder;
                 }
-                else if (entry.Value == 4 && checkWorp == "carre"){ // carré
+                else if (entry.Value >= 4 && checkWorp == "carre"){ // carré
                     aantalPunten = puntenHouder;
                 }
             }
