@@ -14,9 +14,6 @@ namespace Yahtzee
     public partial class Yahtzee : Form
     {
 
-        
-
-
         public SpelBeheer SpelBeheer { get; set; }
 
 
