@@ -58,5 +58,10 @@ namespace Yahtzee
             item.SubItems.Add(score.ToString());
 
         }
+
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
