@@ -159,6 +159,7 @@ namespace Yahtzee
         // Deze functie wordt uitgevoerd wanneer op de "end turn" knop geklikt wordt. Hierdoor worden functies aangeroepen in de YahtzeeRegels class die punten berekenen indien true.
         {
             var geselecteerdeWorp = worpenListBox.SelectedItems.Count > 0 ? worpenListBox.SelectedItems[0] : null;
+            bool LVIngevuld = false;
 
             // TODO: if veld al ingevuld doe dit.
             if (geselecteerdeWorp == null)
@@ -166,33 +167,41 @@ namespace Yahtzee
                 geselecteerdeWorp = worpenListBox2.SelectedItems.Count > 0 ? worpenListBox2.SelectedItems[0] : null;
                 if (geselecteerdeWorp == null)
                 {
-                    throw new System.ArgumentException("Beide geselecteerde worpen komen niet door (NULL)!!");
+                    throw new ArgumentException("Beide geselecteerde worpen komen niet door (NULL)!!");
                 }
                 else
                 {
 
-                    SpelBeheer.calculateScoreAndUpdate(geselecteerdeWorp.Text, worpenListBox2);
+                    LVIngevuld = SpelBeheer.calculateScoreAndUpdate(geselecteerdeWorp.Text, worpenListBox2);
 
                 }
             }
             else
             {
 
-                SpelBeheer.calculateScoreAndUpdate(geselecteerdeWorp.Text, worpenListBox);
+                LVIngevuld = SpelBeheer.calculateScoreAndUpdate(geselecteerdeWorp.Text, worpenListBox);
 
             }
-            dobbelButton.Enabled = false;
-            endTurnButton.Enabled = false;
-            volgendeBeurt.Enabled = true;
+           
+
+            if (!LVIngevuld) // als worp al ingevuld is moet de gebruiker een andere worp selecteren daarna kan pas geswitched worden naar de volgende speler o.i.d.
+            {
+                dobbelButton.Enabled = false;
+                endTurnButton.Enabled = false;
+                volgendeBeurt.Enabled = true;
+            }
+
             
 
         }
 
-        public void replaceValueListView(int punten, ListView box, string rowName)
+        public bool replaceValueListView(int punten, ListView box, string rowName)
         // Deze functie update de score in de listviews. Wanneer de score in een row al ingevoerd is kan er niet worden overschreven.
         {
             var c_worpen = box.Columns["Worpen"].Index;
             var c_punten = box.Columns[SpelBeheer.currentSpeler.Naam].Index;
+
+            bool alIngevuld = false;
 
             foreach (ListViewItem item in box.Items)
             {
@@ -203,10 +212,17 @@ namespace Yahtzee
                         item.SubItems[c_punten].Text = Convert.ToString(punten);
                         SpelBeheer.currentSpeler.scoreKeeper[rowName] = punten;
                     }
+                    else
+                    {
+                        alIngevuld = true;
+                    }
 
                     break;
+                    
                 }
             }
+
+            return alIngevuld;
         }
 
         private void volgendeBeurt_Click(object sender, EventArgs e)
@@ -258,6 +274,11 @@ namespace Yahtzee
                 }
             }
 
+        }
+
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

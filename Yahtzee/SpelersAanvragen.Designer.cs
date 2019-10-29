@@ -40,7 +40,9 @@
             this.naamBox1 = new System.Windows.Forms.TextBox();
             this.naamLabel1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.exitButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // naarSpel
@@ -48,7 +50,7 @@
             this.naarSpel.BackColor = System.Drawing.Color.White;
             this.naarSpel.Enabled = false;
             this.naarSpel.ForeColor = System.Drawing.Color.Red;
-            this.naarSpel.Location = new System.Drawing.Point(101, 300);
+            this.naarSpel.Location = new System.Drawing.Point(58, 273);
             this.naarSpel.Name = "naarSpel";
             this.naarSpel.Size = new System.Drawing.Size(125, 26);
             this.naarSpel.TabIndex = 0;
@@ -163,10 +165,24 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Red;
+            this.panel1.Controls.Add(this.exitButton);
+            this.panel1.Controls.Add(this.naarSpel);
             this.panel1.Location = new System.Drawing.Point(57, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(233, 329);
             this.panel1.TabIndex = 11;
+            // 
+            // exitButton
+            // 
+            this.exitButton.BackColor = System.Drawing.Color.White;
+            this.exitButton.ForeColor = System.Drawing.Color.Red;
+            this.exitButton.Location = new System.Drawing.Point(58, 300);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(125, 26);
+            this.exitButton.TabIndex = 12;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = false;
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
             // SpelersAanvragen
             // 
@@ -183,12 +199,13 @@
             this.Controls.Add(this.naamLabel2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.naarSpel);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SpelersAanvragen";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Spelers invoeren";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -208,5 +225,6 @@
         private System.Windows.Forms.TextBox naamBox1;
         private System.Windows.Forms.Label naamLabel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button exitButton;
     }
 }

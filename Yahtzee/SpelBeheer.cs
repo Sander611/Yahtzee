@@ -117,13 +117,13 @@ namespace Yahtzee
             return rnd.Next(1, 7);
         }
 
-        public void calculateScoreAndUpdate(string geselecteerdeWorp, ListView listViewBox)
+        public bool calculateScoreAndUpdate(string geselecteerdeWorp, ListView listViewBox)
         // berekent score en update waardes en velden in form mbv andere functies.
         {
 
             int toegekendePunten = yahtzeeRegels.PuntenBerekenen(geselecteerdeWorp, DobbelstenenLijst);
 
-            yahtzeeForm.replaceValueListView(toegekendePunten, listViewBox, geselecteerdeWorp);
+            return yahtzeeForm.replaceValueListView(toegekendePunten, listViewBox, geselecteerdeWorp);
             
         }
 
@@ -176,8 +176,9 @@ namespace Yahtzee
 
             getTopScores();
 
-            scoresForm.Show();
             yahtzeeForm.Close();
+            scoresForm.Show();
+            
 
         }
 

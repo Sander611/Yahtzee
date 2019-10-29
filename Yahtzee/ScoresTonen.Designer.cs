@@ -144,7 +144,7 @@
             this.label6.BackColor = System.Drawing.Color.Red;
             this.label6.Font = new System.Drawing.Font("Impact", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(12, 108);
+            this.label6.Location = new System.Drawing.Point(24, 111);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(177, 35);
             this.label6.TabIndex = 10;
@@ -200,8 +200,9 @@
             this.Controls.Add(this.labelSpeler1);
             this.Controls.Add(this.highScoresLV);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ScoresTonen";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ScoresTonen";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

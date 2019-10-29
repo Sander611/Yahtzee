@@ -43,6 +43,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.spelerNaamVeld = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.exitButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.linksBovenBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.linksMiddenBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rechtsBovenBox)).BeginInit();
@@ -209,11 +210,24 @@
             this.panel1.Size = new System.Drawing.Size(486, 512);
             this.panel1.TabIndex = 22;
             // 
+            // exitButton
+            // 
+            this.exitButton.BackColor = System.Drawing.Color.Red;
+            this.exitButton.ForeColor = System.Drawing.Color.White;
+            this.exitButton.Location = new System.Drawing.Point(766, 464);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(85, 34);
+            this.exitButton.TabIndex = 23;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = false;
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            // 
             // Yahtzee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(863, 510);
+            this.Controls.Add(this.exitButton);
             this.Controls.Add(this.spelerNaamVeld);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.volgendeBeurt);
@@ -225,7 +239,9 @@
             this.Controls.Add(this.linksMiddenBox);
             this.Controls.Add(this.linksBovenBox);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Yahtzee";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Yahtzee";
             ((System.ComponentModel.ISupportInitialize)(this.linksBovenBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.linksMiddenBox)).EndInit();
@@ -256,6 +272,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label spelerNaamVeld;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button exitButton;
     }
 }
 
